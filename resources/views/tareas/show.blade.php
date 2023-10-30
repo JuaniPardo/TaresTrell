@@ -9,8 +9,9 @@
                     <div class="card-body">
                         <h5 class="card-text">{{ $tarea->descripcion }}</h5>
                         <h4 class="card-text mt-4">Fecha límite: {{ \Carbon\Carbon::parse($tarea->fecha_limite)->format('d-m-Y') }}</h4>
-                        {{--<p class="card-text">Creada: {{ $tarea->created_at }}</p>
-                        <p class="card-text">Actualizada: {{ $tarea->updated_at }}</p>--}}
+                        <hr>
+                        <h5 class="card-text">Creada: {{ $tarea->created_at }}</h5>
+                        <h5 class="card-text">Actualizada: {{ $tarea->updated_at }}</h5>
                 </div>
                     <div class="card-footer d-flex justify-content-between">
                         <a href="{{ route('tareas.index') }}" class="btn btn-danger">Volver</a>

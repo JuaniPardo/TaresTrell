@@ -6,22 +6,21 @@ use App\Models\Tarea;
 use Illuminate\View\View;
 use App\Http\Requests\TareaRequest;
 use Illuminate\Http\RedirectResponse;
-
+use App\Models\Lista;
 class TareaController extends Controller
 {
 
     public function index(): View
     {
-
+        $listas = Lista::get();
         $tareas = Tarea::where('user_id', auth()->user()->id)
-            ->orderBy('completada')
             ->orderBy('fecha_limite')
             ->get();
         foreach ($tareas as $tarea) {
             $tarea->porVencer = $tarea->porVencer();
             $tarea->vencida = $tarea->vencida();
         }
-        return view('tareas.index', compact('tareas'));
+        return view('tareas.index', compact('tareas'), compact('listas'));
     }
 
     public function create(): View
@@ -33,6 +32,7 @@ class TareaController extends Controller
     {
         $tarea = new Tarea($request->all());
         $tarea->user_id = auth()->user()->id;
+        $tarea->lista_id = $request->input('lista_id', 1);
         $tarea->save();
         return redirect()->route('tareas.index');
     }
@@ -53,12 +53,12 @@ class TareaController extends Controller
         return redirect()->route('tareas.index');
     }
 
-    /*public function destroy(Tarea $tarea): RedirectResponse
+    public function destroy(Tarea $tarea): RedirectResponse
     {
         $tarea->delete();
         return redirect()->route('tareas.index');
-    }*/
-    public function destroy(Tarea $tarea): RedirectResponse
+    }
+    /*public function destroy(Tarea $tarea): RedirectResponse
     {
         if (!$tarea->completada) {
             $tarea->update(['completada' => true]);
@@ -67,6 +67,18 @@ class TareaController extends Controller
             $tarea->update(['completada' => false]);
             $tarea->save();
         }
+        return redirect()->route('tareas.index');
+    }*/
+    public function avanzar(Tarea $tarea): RedirectResponse
+    {
+        $tarea->lista_id = $tarea->lista_id + 1;
+        $tarea->lista()->associate($tarea->lista_id)->save();
+        return redirect()->route('tareas.index');
+    }
+    public function retroceder(Tarea $tarea): RedirectResponse
+    {
+        $tarea->lista_id = $tarea->lista_id - 1;
+        $tarea->lista()->associate($tarea->lista_id)->save();
         return redirect()->route('tareas.index');
     }
 }

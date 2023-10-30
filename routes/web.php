@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TareaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,13 @@ Route::get('/', function () {
 Route::resource(
     'tareas',
     App\Http\Controllers\TareaController::class
+)->middleware('auth');
+Route::put('/tareas/{tarea}/avanzar', [TareaController::class, 'avanzar'])->name('tareas.avanzar');
+Route::put('/tareas/{tarea}/retroceder', [TareaController::class, 'retroceder'])->name('tareas.retroceder');
+
+Route::resource(
+    'listas',
+    App\Http\Controllers\ListaController::class
 )->middleware('auth');
 
 
