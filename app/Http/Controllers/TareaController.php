@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use App\Http\Requests\TareaRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Lista;
+
 class TareaController extends Controller
 {
 
