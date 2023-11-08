@@ -15,6 +15,9 @@
                                         <input type="text" name="nombre" id="nombre" class="form-control"
                                                placeholder="Tarea" value="{{ old('nombre') }}">
                                         <label for="nombre">Nombre</label>
+                                        @error('nombre')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -29,6 +32,9 @@
                                 <textarea name="descripcion" id="descripcion" class="form-control"
                                           placeholder="descripcion">{{ old('descripcion') }}</textarea>
                                 <label for="descripcion">Descripción</label>
+                                @error('descripcion')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between">

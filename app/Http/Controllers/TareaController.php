@@ -40,6 +40,9 @@ class TareaController extends Controller
 
     public function show(Tarea $tarea): View
     {
+        if ($tarea->user_id !== auth()->user()->id) {
+            abort(403, 'No tienes permisos para ver esta tarea.');
+        }
         return view('tareas.show', compact('tarea'));
     }
 
